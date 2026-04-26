@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" standalone="no" ?>
+<modDesc descVersion="106">
+    <author>abstand</author>
+    <version>0.3.0.0</version>
+    <title>
+        <en>Global Suspension Tuner</en>
+        <de>Globale Federungs-Anpassung</de>
+    </title>
+    <description>
+        <en><![CDATA[Globally tunes cab, seat and wheel suspension on every vehicle (vanilla and mod). Per-vehicle overrides via auto-generated XML config in modSettings.]]></en>
+        <de><![CDATA[Stellt Kabinen-, Sitz- und Radfederung global auf jedem Fahrzeug ein (vanilla und Mods). Pro-Fahrzeug-Werte überschreibbar in der automatisch erzeugten XML in modSettings.]]></de>
+    </description>
+    <iconFilename>icon.png</iconFilename>
+    <multiplayer supported="true"/>
+
+    <specializations>
+        <specialization name="globalSuspensionTuner" className="GlobalSuspensionTuner" filename="src/GlobalSuspensionTuner.lua"/>
+    </specializations>
+
+    <extraSourceFiles>
+        <sourceFile filename="src/main.lua"/>
+    </extraSourceFiles>
+</modDesc>

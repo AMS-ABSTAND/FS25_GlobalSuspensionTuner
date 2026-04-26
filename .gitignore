@@ -1,0 +1,15 @@
+# FS25 user-side runtime artifacts (live outside the mod folder, but just in case)
+modSettings/
+
+# Editor / OS noise
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+.vscode/
+.idea/
+
+# Python build artifacts (icon generator)
+__pycache__/
+*.pyc

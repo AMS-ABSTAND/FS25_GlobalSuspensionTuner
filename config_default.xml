@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8" standalone="no" ?>
+<globalSuspensionTuner>
+    <!--
+        FS25 Global Suspension Tuner config (reference copy)
+
+        The active config lives at:
+            <Documents>/My Games/FarmingSimulator2025/modSettings/FS25_GlobalSuspensionTuner.xml
+
+        It is created automatically on first run with the same defaults
+        you see below. Each loaded vehicle (vanilla + mod) is appended as
+        a <vehicle match="..." enabled="true"/> entry which you can edit
+        to override per vehicle.
+
+        Units: rotation in degrees, translation in meters.
+        spring/damper of cab/seat/torso are xml-units (engine x1000).
+        wheels.* multipliers scale the vehicle's own values.
+    -->
+
+    <defaults>
+        <cab    weight="800"
+                minRotation="-2.26 0 0" maxRotation="2.26 0 0"
+                springX="60" damperX="6"/>
+
+        <seat   weight="300"
+                minTranslation="0 -0.3 0" maxTranslation="0 0.3 0"
+                springY="6" damperY="0.9"/>
+
+        <torso  weight="160"
+                minRotation="0 -8 -8" maxRotation="0 8 8"
+                springY="5" damperY="0.7"
+                springZ="5" damperZ="0.7"/>
+
+        <wheels suspTravelScale="1.5"
+                suspTravelMax="0.30"
+                springMultiplier="0.3"
+                damperMultiplier="0.3"/>
+    </defaults>
+
+    <!-- Examples - uncomment and edit:
+
+    <vehicle match="fendt/vario1000">
+        <cab weight="1000" springX="50"/>
+        <wheels springMultiplier="0.6" damperMultiplier="0.6"/>
+    </vehicle>
+
+    <vehicle match="trailer" enabled="false"/>
+
+    -->
+
+</globalSuspensionTuner>
