@@ -188,6 +188,34 @@ end
 
 function GlobalSuspensionTuner.registerEventListeners(vehicleType)
     SpecializationUtil.registerEventListener(vehicleType, "onPostLoad", GlobalSuspensionTuner)
+    SpecializationUtil.registerEventListener(vehicleType, "onRegisterActionEvents", GlobalSuspensionTuner)
+end
+
+function GlobalSuspensionTuner:onRegisterActionEvents(isActiveForInput, isActiveForInputIgnoreSelection)
+    if not self.isClient then return end
+    if not isActiveForInputIgnoreSelection then return end
+    local entered = self.getIsEntered ~= nil and self:getIsEntered()
+    if not entered then return end
+
+    if self._gstActionEvents == nil then self._gstActionEvents = {} end
+    self:clearActionEventsTable(self._gstActionEvents)
+
+    if InputAction.GST_OpenSettings == nil then return end
+    local _, eventId = self:addActionEvent(self._gstActionEvents,
+        InputAction.GST_OpenSettings, self, GlobalSuspensionTuner.onOpenSettings,
+        false, true, false, true, nil)
+    if eventId ~= nil then
+        g_inputBinding:setActionEventTextPriority(eventId, GS_PRIO_LOW)
+        g_inputBinding:setActionEventTextVisibility(eventId, false)
+    end
+end
+
+function GlobalSuspensionTuner.onOpenSettings(self, actionName, inputValue, callbackState, isAnalog)
+    if GstGui ~= nil and GstGui.isOpen then
+        GstGui.close(false)
+    elseif GstGui ~= nil then
+        GstGui.open()
+    end
 end
 
 function GlobalSuspensionTuner:onPostLoad(savegame)
@@ -210,4 +238,35 @@ function GlobalSuspensionTuner:onPostLoad(savegame)
         local matched = profile._matched and (" [match=" .. profile._matched .. "]") or ""
         ilog("tuned %s%s - cab/seat/torso=%d wheels=%d", tostring(name), matched, cabSeatCount, wheelCount)
     end
+end
+
+-- Public: re-apply current GstConfig profile to a single vehicle
+function GlobalSuspensionTuner.retuneVehicle(vehicle)
+    if vehicle == nil or vehicle.configFileName == nil then return end
+    local profile = GstConfig.getProfileFor(vehicle.configFileName)
+    if not profile.enabled then return end
+    tuneAllSuspensions(vehicle, profile)
+    tuneAllWheels(vehicle, profile)
+end
+
+-- Public: re-apply settings to every loaded vehicle (called by GUI on save)
+function GlobalSuspensionTuner.retuneAll()
+    if g_currentMission == nil then return 0 end
+    local list = nil
+    if g_currentMission.vehicleSystem ~= nil and g_currentMission.vehicleSystem.vehicles ~= nil then
+        list = g_currentMission.vehicleSystem.vehicles
+    elseif g_currentMission.vehicles ~= nil then
+        list = g_currentMission.vehicles
+    end
+    if list == nil then return 0 end
+
+    local n = 0
+    for _, v in pairs(list) do
+        if v ~= nil and v.configFileName ~= nil then
+            GlobalSuspensionTuner.retuneVehicle(v)
+            n = n + 1
+        end
+    end
+    ilog("retuneAll touched %d vehicle(s)", n)
+    return n
 end

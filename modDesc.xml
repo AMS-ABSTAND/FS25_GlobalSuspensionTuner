@@ -20,4 +20,21 @@
     <extraSourceFiles>
         <sourceFile filename="src/main.lua"/>
     </extraSourceFiles>
+
+    <l10n>
+        <text name="input_GST_OpenSettings">
+            <en>Suspension Tuner: Settings</en>
+            <de>Federungs-Anpassung: Einstellungen</de>
+        </text>
+    </l10n>
+
+    <actions>
+        <action name="GST_OpenSettings" category="VEHICLE" ignoreComboMask="false"/>
+    </actions>
+
+    <inputBinding>
+        <actionBinding action="GST_OpenSettings">
+            <binding device="KB_MOUSE_DEFAULT" input="KEY_lshift KEY_g"/>
+        </actionBinding>
+    </inputBinding>
 </modDesc>

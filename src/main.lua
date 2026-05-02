@@ -10,7 +10,33 @@ local modDirectory = g_currentModDirectory or ""
 print(string.format("[GlobalSuspensionTuner] main.lua sourced (modName=%s)", tostring(modName)))
 
 source(modDirectory .. "src/Config.lua")
+source(modDirectory .. "src/GlobalSuspensionTunerGui.lua")
 GstConfig.setModDirectory(modDirectory)
+
+-- =========================================================
+-- GUI listener (global - hotkey Shift+G opens settings)
+-- =========================================================
+local GstListener = {}
+
+function GstListener:loadMap(name)
+    GstConfig.ensureLoaded()
+end
+function GstListener:deleteMap()
+    GstGui.close(false)
+    GstGui.destroy()
+end
+function GstListener:update(dt)     GstGui.onUpdate(dt) end
+function GstListener:draw()         GstGui.onDraw() end
+
+function GstListener:keyEvent(unicode, sym, modifier, isDown)
+    GstGui.onKeyEvent(unicode, sym, modifier, isDown)
+end
+
+function GstListener:mouseEvent(posX, posY, isDown, isUp, button)
+    GstGui.onMouseEvent(posX, posY, isDown, isUp, button)
+end
+
+addModEventListener(GstListener)
 
 local function attachSpec(typeManager)
     if not g_modIsLoaded[modName] then return end
