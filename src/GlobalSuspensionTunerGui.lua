@@ -1,4 +1,4 @@
--- GlobalSuspensionTunerGui.lua  v0.3.0.0
+-- GlobalSuspensionTunerGui.lua  v0.4.0.0
 -- In-game settings overlay for GlobalSuspensionTuner.
 -- Same FS25-style dark panel + orange accent as the SlowSteering GUI.
 --
@@ -618,7 +618,7 @@ local function drawHeader(overlay)
 
     setTextAlignment(RenderText.ALIGN_RIGHT)
     setColor(C.txtAccent)
-    renderText(x + w - L.padX, y + h * 0.50 - 0.003, 0.0135, "v0.3.0.0")
+    renderText(x + w - L.padX, y + h * 0.50 - 0.003, 0.0135, "v0.4.0.0")
 
     setTextAlignment(RenderText.ALIGN_RIGHT)
     setColor(C.txtSecond)
